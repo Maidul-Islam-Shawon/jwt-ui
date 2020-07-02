@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import Axios from "axios";
 //import loginFunc from "../Components/Auth";
@@ -12,6 +12,15 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const [validated, setValidated] = useState(false);
   const [isAuthenticated, setAuthenticated] = useState(false);
+
+  //   let localStorageToken = localStorage.getItem("token");
+  //   let sessionStorageToken = sessionStorage.getItem("token");
+  //   let isAuth = localStorage.getItem("isAuth");
+  useEffect(() => {
+    //  localStorageToken = localStorage.getItem("token");
+    //  sessionStorageToken = sessionStorage.getItem("token");
+    //  isAuth = localStorage.getItem("isAuth");
+  }, []);
 
   const handleChange = (event) => {
     const name = event.target.name;
