@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Form, Button } from "react-bootstrap";
 import Axios from "axios";
 //import loginFunc from "../Components/Auth";
@@ -12,15 +12,8 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const [validated, setValidated] = useState(false);
   const [isAuthenticated, setAuthenticated] = useState(false);
-
-  //   let localStorageToken = localStorage.getItem("token");
-  //   let sessionStorageToken = sessionStorage.getItem("token");
-  //   let isAuth = localStorage.getItem("isAuth");
-  useEffect(() => {
-    //  localStorageToken = localStorage.getItem("token");
-    //  sessionStorageToken = sessionStorage.getItem("token");
-    //  isAuth = localStorage.getItem("isAuth");
-  }, []);
+  //let isAuthenticated = false;
+  //const isAuthenticated = useRef(false);
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -34,21 +27,32 @@ const LoginPage = () => {
     event.preventDefault();
     validationCheck(event); //checking all fields in the form
     //loginFunc(state, setAuthenticated, setError); //return token and IsAuthenticated or Error
+
     Axios.post("https://localhost:44331/api/authenticate/login", state).then(
       (result) => {
         localStorage.setItem("token", result.data.token);
         localStorage.setItem("isAuth", true);
         sessionStorage.setItem("token", result.data.token);
         setAuthenticated(true);
+        //isAuthenticated = true;
+        //isAuthenticated.current = true;
         setError("");
       },
       (err) => {
         setError(err.message);
       }
     );
+
+    // if (
+    //   isAuth &&
+    //   localStorageToken !== null &&
+    //   sessionStorageToken !== null &&
+    //   localStorageToken === sessionStorageToken
+    // ) {
+    //   setAuthenticated(true);
+    // }
   };
 
-  //console.log("isauth:", isAuthenticated);
   //   console.log("error:", error);
 
   const validationCheck = (event) => {
@@ -63,10 +67,11 @@ const LoginPage = () => {
   let localStorageToken = localStorage.getItem("token");
   let sessionStorageToken = sessionStorage.getItem("token");
   let isAuth = localStorage.getItem("isAuth");
-
+  //let checkAuthenticated = isAuthenticated.current;
+  //console.log("isauth:", isAuthenticated.current);
   if (
     isAuthenticated &&
-    isAuth &&
+    isAuth === "true" &&
     localStorageToken !== null &&
     sessionStorageToken !== null &&
     localStorageToken === sessionStorageToken

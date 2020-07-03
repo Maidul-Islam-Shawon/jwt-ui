@@ -12,7 +12,7 @@ const PrivateRouter = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        isAuth &&
+        isAuth === "true" &&
         localStorageToken !== null &&
         sessionStorageToken !== null &&
         localStorageToken === sessionStorageToken ? (

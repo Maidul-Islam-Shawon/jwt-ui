@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 
 const PublicRouter = ({ component: Component, restricted, ...rest }) => {
-  let localStorageToken = localStorage.getItem("token");
-  let sessionStorageToken = sessionStorage.getItem("token");
-  let isAuth = localStorage.getItem("isAuth");
+  const [localStorageToken, setLocalStorageToken] = useState("");
+  const [sessionStorageToken, setSessionStorageToken] = useState("");
+  const [isAuth, setAuth] = useState("");
+
+  useEffect(() => {
+    setLocalStorageToken(localStorage.getItem("token"));
+    //localStorageToken = localStorage.getItem("token");
+    setSessionStorageToken(sessionStorage.getItem("token"));
+    setAuth(localStorage.getItem("isAuth"));
+  }, []);
+
+  // let localStorageToken = localStorage.getItem("token");
+  // let sessionStorageToken = sessionStorage.getItem("token");
+  // let isAuth = localStorage.getItem("isAuth");
 
   // console.log("isAuth", isAuth);
   // console.log("restricted", restricted);
@@ -15,7 +26,7 @@ const PublicRouter = ({ component: Component, restricted, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        isAuth &&
+        isAuth === "true" &&
         localStorageToken !== null &&
         sessionStorageToken !== null &&
         localStorageToken === sessionStorageToken &&
